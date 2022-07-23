@@ -1,0 +1,18 @@
+version: '3'
+services:
+    mariadb:
+        image: mariadb:5
+        container_name: mariadb
+        #restart: 'always'
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        ports:
+            - 3306:3306
+        volumes:
+            - ./mysql_init:/docker-entrypoint-initdb.d
+            # - ./data:/var/lib/mysql  # mysqlだとInnoDBのエラー出るかも
+            - ./my.cnf:/etc/mysql/conf.d/my.cnf
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+            MYSQL_USER: docker #既存のユーザ登録でエラー
+            MYSQL_PASSWORD: docker
